@@ -1,2 +1,2 @@
-# mini_mock
+# MiniMock
  Record and replay Typhoeus requests
