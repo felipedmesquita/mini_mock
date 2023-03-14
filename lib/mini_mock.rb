@@ -21,6 +21,7 @@ class MiniMock
 
     def off
       Typhoeus::Config.block_connection = false
+      Typhoeus::Expectation.clear
       remove_callback
       true
     end
