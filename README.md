@@ -1,6 +1,8 @@
 [![Gem Version](https://badge.fury.io/rb/mini_mock.svg)](https://badge.fury.io/rb/mini_mock)
 # MiniMock
- A Ruby Gem to record and replay requests using [Typhoeus](https://github.com/typhoeus/typhoeus)’ built-in stubbing functionality. Add `gem "mini_mock"` to your Gemfile or install it yourself with `gem install mini_mock`.
+ A Ruby Gem to record and replay requests using [Typhoeus](https://github.com/typhoeus/typhoeus)’ built-in stubbing functionality.
+## Installation
+ Add `gem "mini_mock"` to your Gemfile or install it yourself with `gem install mini_mock`.
 
 ## Usage
 ```ruby
@@ -33,7 +35,7 @@ response = Typhoeus::Response.new(
 Typhoeus.stub("https://api.github.com/zen", {:method=>:get})
 .and_return(response)
 ```
-The line lengths are not great, but that's a tradeoff to make the mocks file easier to navigate when it has lots of saved requests. Speaking of messy mocks files, mocks.rb is just the default file name, pass a parameter to `.record` as in `MiniMock.record('open-ai-api')` and subsequent requests will be saved to open-ai-api.rb in the mini_mock folder. To latter load theses responses, call `MiniMock.replay('open-ai-api')`.
+The line lengths are not great, but that's a tradeoff to make the mocks file easier to navigate while keeping complete responses and requests in the same file. Speaking of messy mocks files, mocks.rb is just the default file name. To organize your mocks in multiple files, pass a parameter to `.record` as in `MiniMock.record('open-ai-api')` and subsequent responses will be saved to open-ai-api.rb in the mini_mock folder. To latter load these responses, call `MiniMock.replay('open-ai-api')`.
 #### This is also useful in tests:
 Run this test once as
 ```ruby
@@ -58,12 +60,12 @@ MiniMock.off
 This will also clear any currenly loaded mocks.
 
 ## Weirdness
-Saving requests to ruby files from within a heredoc is, to say the least, uncoventional. While this gem is desinged to be fun to use in development/testing, it's implementation probalby has issues with more complex requests. Writting stuff from the internet to a file that will be latter executed as Ruby may need more security consideration than just calling `inspect` on the response values. That's all probalby fine if you are having fun and working with somewhat trusted data. Otherwise, checkout more advanced and safer mocking gems like [WebMock](https://github.com/bblimke/webmock) and [VCR](https://github.com/vcr/vcr).
+Saving requests to ruby files from within a heredoc is, to say the least, uncoventional. While this gem is desinged to be fun to use in development/testing, it's implementation probalby has issues with more complex requests. Writting stuff from the internet to a file that will be latter executed as Ruby also may need more security consideration than just calling `inspect` on the response values. That's all probalby fine if you are having fun and working with somewhat trusted data. Otherwise, checkout more advanced and safer mocking gems like [WebMock](https://github.com/bblimke/webmock) and [VCR](https://github.com/vcr/vcr).
 
 ### Considerations
 * MiniMock only supports Typhoeus as the HTTP library, while other gems support multiple HTTP libraries such as Net::HTTP, RestClient, Faraday, etc.
-* MiniMock only records and replays requests and responses as they are, without allowing any customization or filtering of sensitive data such as passwords or API keys.
-* MiniMock does not provide any way to verify that the expected requests have been made or not, or to set expectations on the number or order of requests.
+* MiniMock only records requests and responses as they are, without allowing any automatic filtering of sensitive data such as passwords or API keys.
+* MiniMock does not provide any way to verify that the expected requests have been made, or to set expectations on the number or order of requests.
 
 ## Contributing
 Bug reports and pull requests are welcome on GitHub at https://github.com/felipedmesquita/mini_mock.
